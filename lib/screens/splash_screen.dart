@@ -22,8 +22,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
       if (user != null) {
         context.go("/app");
-      } else {
-        context.go("/login");
       }
     });
     super.initState();
@@ -58,7 +56,6 @@ class _SplashScreenState extends State<SplashScreen> {
             await Future.delayed(const Duration(seconds: 2));
             if (!mounted) return;
             currentContext.go('/login');
-            // currentContext.go('/app');
           },
           child:
               isTapped

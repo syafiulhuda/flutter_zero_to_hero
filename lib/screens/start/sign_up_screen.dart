@@ -3,7 +3,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zth/auth/auth_service.dart';
+import 'package:flutter_zth/data/constants.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -16,9 +18,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final authService = AuthService();
+  final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
   void _signUp() async {
+    if (!_formKey.currentState!.validate()) return;
     setState(() => _isLoading = true);
     try {
       await authService.signUpWithEmailPassword(
@@ -51,36 +55,67 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Stack(
       children: [
         Scaffold(
-          appBar: AppBar(title: const Text('Sign Up')),
-          body: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              children: [
-                TextField(
-                  controller: emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
+          appBar: AppBar(title: Text("Sign Up")),
+          body: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      LottieBuilder.asset("assets/wp/sign-up.json"),
+                      TextFormField(
+                        controller: emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Email Can`t be Empty';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(labelText: 'Email'),
+                      ),
+                      TextFormField(
+                        controller: passwordController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Password Can`t be Empty';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                        ),
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: _signUp,
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(width * .6, 50),
+                          backgroundColor: KTextStyle.generalColor(context),
+                          textStyle: KTextStyle.bodyTextStyle(context),
+                        ),
+                        child: const Text('Sign Up'),
+                      ),
+                    ],
+                  ),
                 ),
-                TextField(
-                  controller: passwordController,
-                  decoration: const InputDecoration(labelText: 'Password'),
-                  obscureText: true,
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: _signUp,
-                  child: const Text('Sign Up'),
-                ),
-              ],
+              ),
             ),
           ),
         ),
         if (_isLoading)
           Container(
             color: Colors.black.withAlpha(50),
-            child: const Center(child: CircularProgressIndicator()),
+            child: Center(
+              child: LottieBuilder.asset("assets/splash/loading-hand.json"),
+            ),
           ),
       ],
     );
