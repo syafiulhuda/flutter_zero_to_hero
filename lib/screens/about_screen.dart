@@ -73,6 +73,10 @@ class AboutScreen extends StatelessWidget {
                         value: !selectedMode,
                         onChanged: (value) {
                           isDarkModeNotifier.value = !isDarkModeNotifier.value;
+
+                          // Save changeMode ke sharePreferences
+                          ThemeModePreferences().saveThemeMode(!value);
+                          debugPrint("${!isDarkModeNotifier.value}"); // true
                         },
                       );
                     },

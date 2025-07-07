@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zth/auth/auth_service.dart';
 import 'package:flutter_zth/data/constants.dart';
+import 'package:flutter_zth/data/notifier.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
@@ -88,7 +89,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      LottieBuilder.asset("assets/wp/sign-in.json"),
+                      ValueListenableBuilder(
+                        valueListenable: isDarkModeNotifier,
+                        builder: (context, isDarkMode, child) {
+                          return isDarkMode
+                              ? LottieBuilder.asset("assets/wp/sign-in.json")
+                              : LottieBuilder.asset(
+                                "assets/wp/sign-in-dark-mode.json",
+                              );
+                        },
+                      ),
                       SizedBox(height: 15),
                       TextFormField(
                         controller: emailController,

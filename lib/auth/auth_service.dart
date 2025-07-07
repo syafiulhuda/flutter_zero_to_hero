@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_zth/data/notifier.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -43,9 +44,13 @@ class AuthService {
   Future<void> signOut() async {
     final googleSignIn = GoogleSignIn();
 
-    final isGoogleSignedIn = await googleSignIn.isSignedIn();
-    if (isGoogleSignedIn) {
-      await googleSignIn.disconnect();
+    try {
+      final isGoogleSignedIn = await googleSignIn.isSignedIn();
+      if (isGoogleSignedIn) {
+        await googleSignIn.signOut();
+      }
+    } catch (e) {
+      debugPrint("GoogleSignOut error: $e");
     }
 
     await _firebaseAuth.signOut();

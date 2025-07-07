@@ -63,7 +63,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '665358255541',
     projectId: 'login-auth-flutter-64673',
     storageBucket: 'login-auth-flutter-64673.firebasestorage.app',
+    androidClientId: '665358255541-nb6uur1at7jpbtnr6h5p6svt3i2mh7pb.apps.googleusercontent.com',
     iosClientId: '665358255541-80am6a01t4ci93duim6relvt62k463j3.apps.googleusercontent.com',
     iosBundleId: 'com.example.flutterZth',
   );
+
 }

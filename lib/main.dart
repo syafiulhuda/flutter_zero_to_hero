@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zth/data/constants.dart';
 import 'package:flutter_zth/data/notifier.dart';
 import 'package:flutter_zth/firebase_options.dart';
 import 'routes/route.dart';
@@ -9,6 +10,10 @@ import 'routes/route.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  final isDark = await ThemeModePreferences().loadThemePreference();
+  isDarkModeNotifier.value = isDark;
+
   runApp(const MyApp());
 }
 

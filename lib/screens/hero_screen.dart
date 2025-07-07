@@ -12,10 +12,7 @@ class HeroScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: colorScheme.inversePrimary,
-        title: Text(
-          "Hero",
-          style: TextStyle(color: colorScheme.onInverseSurface),
-        ),
+        title: Text("Hero", style: TextStyle(color: colorScheme.onSurface)),
       ),
       body: Center(
         child: InkWell(
@@ -30,7 +27,7 @@ class HeroScreen extends StatelessWidget {
                       backgroundColor: colorScheme.inversePrimary,
                       title: Text(
                         "Hero Detail Page",
-                        style: TextStyle(color: colorScheme.onInverseSurface),
+                        style: TextStyle(color: colorScheme.onSurface),
                       ),
                     ),
                     body: Container(
@@ -42,8 +39,8 @@ class HeroScreen extends StatelessWidget {
                         child: SizedBox(
                           width: 250,
                           height: 250,
-                          child: Image.network(
-                            "https://keyword-hero.com/wp-content/uploads/2017/04/Cart-Hero.png",
+                          child: Image.asset(
+                            "assets/images/cart-hero.png",
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -63,18 +60,8 @@ class HeroScreen extends StatelessWidget {
                 "https://keyword-hero.com/wp-content/uploads/2017/04/Cart-Hero.png",
                 fit: BoxFit.contain,
                 loadingBuilder: (context, child, loadingProgress) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value:
-                          loadingProgress != null &&
-                                  loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes!
-                              : null,
-
-                      // value: loadingProgress?.expectedTotalBytes != null ? loadingProgress!.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : null,
-                    ),
-                  );
+                  if (loadingProgress == null) return child;
+                  return Center(child: CircularProgressIndicator());
                 },
               ),
             ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zth/data/constants.dart';
 import 'package:flutter_zth/data/notifier.dart';
 import 'package:flutter_zth/routes/route.dart';
+import 'package:flutter_zth/widgets/circular_menu_widget.dart';
 import 'package:go_router/go_router.dart';
 
 class Home extends StatelessWidget {
@@ -28,6 +29,7 @@ class Home extends StatelessWidget {
             (user?.email != null || user?.displayName != null)
                 ? "Hai ${user?.displayName ?? user?.email?.split('@').first}!"
                 : "Hai Pengguna!",
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: colorScheme.onSurface,
               fontSize: 20,
@@ -69,6 +71,10 @@ class Home extends StatelessWidget {
                 value: !selectedMode,
                 onChanged: (value) {
                   isDarkModeNotifier.value = !isDarkModeNotifier.value;
+
+                  // Save changeMode ke sharePreferences
+                  ThemeModePreferences().saveThemeMode(!value);
+                  debugPrint("${!value}"); // Dark Mode = false
                 },
               );
             },
@@ -111,6 +117,8 @@ class Home extends StatelessWidget {
           );
         },
       ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: CircularMenuWidget(),
     );
   }
 }
