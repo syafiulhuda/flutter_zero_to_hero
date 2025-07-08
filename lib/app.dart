@@ -1,8 +1,8 @@
 // lib/app.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_zth/data/notifier.dart';
-import 'package:flutter_zth/home.dart';
-import 'package:flutter_zth/screens/about_screen.dart';
+import 'package:flutter_zth/screens/menu/home.dart';
+import 'package:flutter_zth/screens/menu/about_screen.dart';
 import 'package:flutter_zth/widgets/btn_nav_bar_widget.dart';
 
 List<Widget> pages = [const Home(), const AboutScreen()];
