@@ -39,7 +39,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
       setState(() => isLoading = true);
 
-      context.go('/app');
+      // context.go('/app');
+      context.go('/home');
     } catch (e) {
       if (mounted) _showError(authService.getErrorMessage(e.toString()));
     } finally {
@@ -59,7 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (!mounted) return;
       setState(() => isLoading = false);
 
-      context.go('/app');
+      // context.go('/app');
+      context.go('/home');
     } catch (e) {
       _showError("Google Sign In Failed");
     } finally {

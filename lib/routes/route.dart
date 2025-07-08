@@ -3,10 +3,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_zth/app.dart';
+import 'package:flutter_zth/home.dart';
 import 'package:flutter_zth/screens/drawer_screen.dart';
 import 'package:flutter_zth/screens/hero_screen.dart';
 import 'package:flutter_zth/screens/mix_widget_screen.dart';
+import 'package:flutter_zth/screens/refresh_indicator_screen.dart';
 import 'package:flutter_zth/screens/safe_area_screen.dart';
+import 'package:flutter_zth/screens/search_bar_screen.dart';
 import 'package:flutter_zth/screens/slider_screen.dart';
 import 'package:flutter_zth/screens/snack_bar_screen.dart';
 import 'package:flutter_zth/screens/splash_screen.dart';
@@ -30,6 +33,8 @@ final List<RouteItem> appRoutes = [
   RouteItem(title: 'Slider', path: '/slider'),
   RouteItem(title: 'Snack Bar', path: '/snack-bar'),
   RouteItem(title: 'Hero Example', path: '/hero'),
+  RouteItem(title: 'Refresh Indicator', path: '/refresh'),
+  RouteItem(title: 'Seacrh Bar', path: '/seach-bar'),
 ];
 
 GoRouter goRoute = GoRouter(
@@ -38,6 +43,7 @@ GoRouter goRoute = GoRouter(
     GoRoute(path: '/login', builder: (context, state) => const LoginScreen()),
     GoRoute(path: '/signup', builder: (context, state) => const SignUpScreen()),
     GoRoute(path: '/app', builder: (context, state) => const App()),
+    GoRoute(path: '/home', builder: (context, state) => const Home()),
     ...appRoutes.map((routeItem) {
       Widget screenBuilder(BuildContext context, GoRouterState state) {
         switch (routeItem.path) {
@@ -55,6 +61,10 @@ GoRouter goRoute = GoRouter(
             return const SnackBarScreen();
           case '/hero':
             return const HeroScreen();
+          case '/refresh':
+            return const RefreshIndicatorScreen();
+          case '/seach-bar':
+            return const SearchBarScreen();
           default:
             return const Text('Halaman tidak dikenal');
         }

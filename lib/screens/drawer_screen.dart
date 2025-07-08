@@ -13,7 +13,8 @@ class DrawerScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              context.go('/app');
+              // context.go('/app');
+              context.go('/home');
             },
             icon: Icon(Icons.home),
           ),

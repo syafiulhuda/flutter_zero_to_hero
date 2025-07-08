@@ -6,8 +6,8 @@ import 'package:flutter_zth/routes/route.dart';
 import 'package:flutter_zth/widgets/circular_menu_widget.dart';
 import 'package:go_router/go_router.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

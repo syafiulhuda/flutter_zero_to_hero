@@ -37,7 +37,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       await Future.delayed(const Duration(seconds: 1));
 
-      context.go('/app');
+      // context.go('/app');
+      context.go('/home');
     } on FirebaseAuthException catch (e) {
       _showError(authService.getErrorMessage(e.code));
     } catch (e) {
