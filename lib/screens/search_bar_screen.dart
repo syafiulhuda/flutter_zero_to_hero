@@ -83,36 +83,48 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
                               )
                               .toList();
 
-                      return List<ListTile>.generate(filteredProducts.length, (
+                      return List<Widget>.generate(filteredProducts.length, (
                         int index,
                       ) {
                         final data = filteredProducts[index];
 
-                        return ListTile(
-                          title: Text(data.title ?? "No Title"),
-                          subtitle: Text(
-                            "\$${data.price?.toStringAsFixed(2) ?? "-"}",
+                        return Dismissible(
+                          key: ValueKey(data.id),
+                          background: Container(
+                            color: Colors.greenAccent,
+                            child: Icon(Icons.check),
                           ),
-                          leading:
-                              data.image != null
-                                  ? Image.network(
-                                    data.image!,
-                                    width: 40,
-                                    height: 40,
-                                  )
-                                  : const CircleAvatar(),
-                          onTap: () {
-                            setState(() {
-                              controller.closeView(data.title);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (_) => ProductDetailScreen(product: data),
-                                ),
-                              );
-                            });
-                          },
+                          secondaryBackground: Container(
+                            color: Colors.redAccent,
+                            child: Icon(Icons.cancel),
+                          ),
+                          child: ListTile(
+                            title: Text(data.title ?? "No Title"),
+                            subtitle: Text(
+                              "\$${data.price?.toStringAsFixed(2) ?? "-"}",
+                            ),
+                            leading:
+                                data.image != null
+                                    ? Image.network(
+                                      data.image!,
+                                      width: 40,
+                                      height: 40,
+                                    )
+                                    : const CircleAvatar(),
+                            onTap: () {
+                              setState(() {
+                                controller.closeView(data.title);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (_) =>
+                                            ProductDetailScreen(product: data),
+                                  ),
+                                );
+                              });
+                            },
+                          ),
                         );
                       });
                     },

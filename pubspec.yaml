@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  animated_flip_counter: ^0.3.4
   bloc: ^9.0.0
   circular_menu: ^4.0.0
   crypto: ^3.0.6
@@ -44,6 +45,7 @@ dependencies:
   http: ^1.4.0
   lottie: ^3.3.1
   shared_preferences: ^2.5.3
+  smooth_page_indicator: ^1.2.1
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4

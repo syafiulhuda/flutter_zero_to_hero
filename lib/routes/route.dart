@@ -7,12 +7,14 @@ import 'package:flutter_zth/home.dart';
 import 'package:flutter_zth/screens/drawer_screen.dart';
 import 'package:flutter_zth/screens/hero_screen.dart';
 import 'package:flutter_zth/screens/mix_widget_screen.dart';
+import 'package:flutter_zth/screens/page_view_screen.dart';
 import 'package:flutter_zth/screens/refresh_indicator_screen.dart';
 import 'package:flutter_zth/screens/safe_area_screen.dart';
 import 'package:flutter_zth/screens/search_bar_screen.dart';
 import 'package:flutter_zth/screens/slider_screen.dart';
+import 'package:flutter_zth/screens/sliver_app_bar_screen.dart';
 import 'package:flutter_zth/screens/snack_bar_screen.dart';
-import 'package:flutter_zth/screens/splash_screen.dart';
+import 'package:flutter_zth/widgets/splash_screen.dart';
 import 'package:flutter_zth/screens/start/login_screen.dart';
 import 'package:flutter_zth/screens/start/sign_up_screen.dart';
 import 'package:flutter_zth/screens/text_field_screen.dart';
@@ -35,6 +37,8 @@ final List<RouteItem> appRoutes = [
   RouteItem(title: 'Hero Example', path: '/hero'),
   RouteItem(title: 'Refresh Indicator', path: '/refresh'),
   RouteItem(title: 'Seacrh Bar', path: '/seach-bar'),
+  RouteItem(title: 'Page View', path: '/page-view'),
+  RouteItem(title: 'Sliver App Bar', path: '/sliver-app-bar'),
 ];
 
 GoRouter goRoute = GoRouter(
@@ -65,6 +69,10 @@ GoRouter goRoute = GoRouter(
             return const RefreshIndicatorScreen();
           case '/seach-bar':
             return const SearchBarScreen();
+          case '/page-view':
+            return PageViewScreen();
+          case '/sliver-app-bar':
+            return SliverAppBarScreen();
           default:
             return const Text('Halaman tidak dikenal');
         }

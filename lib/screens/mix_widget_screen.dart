@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zth/data/constants.dart';
+import 'package:animated_flip_counter/animated_flip_counter.dart';
 
 class MixWidgetScreen extends StatefulWidget {
   const MixWidgetScreen({super.key});
@@ -72,7 +73,7 @@ class _MixWidgetScreenState extends State<MixWidgetScreen> {
                   height: 250,
                   width: double.infinity,
                   child: Image.network(
-                    "https://random-image-pepebigotes.vercel.app/api/random-image",
+                    'https://dummyjson.com/icon/abc123/150',
                     fit: BoxFit.cover,
                     height: double.infinity,
                     width: double.infinity,
@@ -104,11 +105,12 @@ class _MixWidgetScreenState extends State<MixWidgetScreen> {
               borderRadius: BorderRadius.circular(25.0),
             ),
             child: Center(
-              child: Text(
-                '$_counter',
-                style: TextStyle(
+              child: AnimatedFlipCounter(
+                duration: Duration(milliseconds: 500),
+                value: _counter,
+                textStyle: TextStyle(
                   color: KTextStyle.generalTextStyle(context),
-                  fontSize: 30,
+                  fontSize: 25,
                 ),
               ),
             ),
