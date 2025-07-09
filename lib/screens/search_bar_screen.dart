@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_zth/bloc/all_products/products_bloc.dart';
+import 'package:flutter_zth/data/constants.dart';
 import 'package:flutter_zth/data/models/products.dart';
 
 class SearchBarScreen extends StatefulWidget {
@@ -12,6 +13,12 @@ class SearchBarScreen extends StatefulWidget {
 
 class _SearchBarScreenState extends State<SearchBarScreen> {
   bool isDark = false;
+
+  Future<void> _refresh(BuildContext context) async {
+    context.read<ProductsBloc>().add(FetchAllProducts());
+
+    await Future.delayed(Duration(seconds: 2));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,10 +47,12 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
           }
         },
         builder: (context, state) {
+          Widget widget;
+
           if (state is ProductsLoading) {
-            return const Center(child: CircularProgressIndicator());
+            widget = const Center(child: CircularProgressIndicator());
           } else if (state is ProductsLoaded) {
-            return Column(
+            widget = Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -88,68 +97,7 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
                       ) {
                         final data = filteredProducts[index];
 
-                        return Dismissible(
-                          key: ValueKey(data.id),
-                          background: Container(
-                            color: Colors.greenAccent,
-                            child: Icon(Icons.check),
-                          ),
-                          secondaryBackground: Container(
-                            color: Colors.redAccent,
-                            child: Icon(Icons.cancel),
-                          ),
-                          child: ListTile(
-                            title: Text(data.title ?? "No Title"),
-                            subtitle: Text(
-                              "\$${data.price?.toStringAsFixed(2) ?? "-"}",
-                            ),
-                            leading:
-                                data.image != null
-                                    ? Image.network(
-                                      data.image!,
-                                      width: 40,
-                                      height: 40,
-                                    )
-                                    : const CircleAvatar(),
-                            onTap: () {
-                              setState(() {
-                                controller.closeView(data.title);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder:
-                                        (_) =>
-                                            ProductDetailScreen(product: data),
-                                  ),
-                                );
-                              });
-                            },
-                          ),
-                        );
-                      });
-                    },
-                  ),
-                ),
-                SizedBox(height: 10),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: state.products.length,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final data = state.products[index];
-
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) =>
-                                      ProductDetailScreen(product: data),
-                            ),
-                          );
-                        },
-                        child: ListTile(
+                        return ListTile(
                           title: Text(data.title ?? "No Title"),
                           subtitle: Text(
                             "\$${data.price?.toStringAsFixed(2) ?? "-"}",
@@ -161,17 +109,136 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
                                     width: 40,
                                     height: 40,
                                   )
-                                  : CircleAvatar(),
-                        ),
-                      );
+                                  : const CircleAvatar(),
+                          onTap: () {
+                            setState(() {
+                              controller.closeView(data.title);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (_) => ProductDetailScreen(product: data),
+                                ),
+                              );
+                            });
+                          },
+                        );
+                      });
                     },
+                  ),
+                ),
+                SizedBox(height: 10),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                            "Swipe ListTile untuk menghapus data",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Text(
+                            "Swipe down untuk refresh data",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      RefreshIndicator(
+                        edgeOffset: 0,
+                        strokeWidth: 2,
+                        color: KTextStyle.generalTextStyle(context),
+                        backgroundColor: KTextStyle.generalColor(context),
+                        onRefresh: () => _refresh(context),
+                        child: ListView.builder(
+                          itemCount: state.products.length,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            final data = state.products[index];
+
+                            return Dismissible(
+                              key: ValueKey(data.id),
+                              onDismissed: (direction) {
+                                setState(() {
+                                  state.products.removeAt(index);
+                                });
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: KTextStyle.generalColor(
+                                      context,
+                                    ),
+                                    content: Text(
+                                      "List Removed at ${data.id}",
+                                      style: KTextStyle.bodyTextStyle(context),
+                                    ),
+                                  ),
+                                );
+                              },
+                              background: Container(
+                                color: Colors.redAccent,
+                                child: Icon(Icons.cancel),
+                              ),
+                              secondaryBackground: Container(
+                                color: Colors.redAccent,
+                                child: Icon(Icons.cancel),
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => ProductDetailScreen(
+                                            product: data,
+                                          ),
+                                    ),
+                                  );
+                                },
+                                child: ListTile(
+                                  title: Text(data.title ?? "No Title"),
+                                  subtitle: Text(
+                                    "\$${data.price?.toStringAsFixed(2) ?? "-"}",
+                                  ),
+                                  leading:
+                                      data.image != null
+                                          ? Image.network(
+                                            data.image!,
+                                            width: 40,
+                                            height: 40,
+                                          )
+                                          : CircleAvatar(),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             );
           } else {
-            return const Center(child: Text("Error Error"));
+            widget = const Center(child: Text("Error Error"));
           }
+
+          return widget;
         },
       ),
     );
