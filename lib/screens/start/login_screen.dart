@@ -114,6 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           icon: const Icon(Icons.email),
                           labelText: "Email",
+                          helperText: "isi: admin@gmail.com",
+                          helperStyle: TextStyle(fontSize: 15),
                           labelStyle: TextStyle(
                             color: KTextStyle.generalTextStyle(context),
                           ),
@@ -138,6 +140,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         decoration: InputDecoration(
                           icon: const Icon(Icons.password_outlined),
                           labelText: "Password",
+                          helperText: "isi: admin123",
+                          helperStyle: TextStyle(fontSize: 15),
                           labelStyle: TextStyle(
                             color: KTextStyle.generalTextStyle(context),
                           ),

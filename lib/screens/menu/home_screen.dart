@@ -117,7 +117,6 @@ class HomeScreen extends StatelessWidget {
           );
         },
       ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: CircularMenuWidget(),
     );
   }

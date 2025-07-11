@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zth/auth/auth_service.dart';
 import 'package:flutter_zth/data/constants.dart';
@@ -11,7 +12,6 @@ class AboutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final authService = AuthService();
 
     return ValueListenableBuilder<bool>(
       valueListenable: isLoading,
@@ -24,22 +24,6 @@ class AboutScreen extends StatelessWidget {
                 backgroundColor: KTextStyle.generalColor(context),
                 title: const Text("About"),
                 actions: [
-                  IconButton(
-                    icon: const Icon(Icons.logout),
-                    tooltip: 'Logout',
-                    onPressed: () async {
-                      isLoading.value = true;
-
-                      await Future.delayed(const Duration(seconds: 2));
-                      await authService.signOut();
-
-                      isLoading.value = false;
-
-                      if (context.mounted) {
-                        context.go('/login');
-                      }
-                    },
-                  ),
                   ValueListenableBuilder(
                     valueListenable: isDarkModeNotifier,
                     builder: (context, selectedMode, child) {
@@ -83,7 +67,7 @@ class AboutScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              body: const Center(child: Text("This is the About Screen")),
+              body: Body(),
             ),
             if (isLoggingOut)
               Container(
@@ -95,6 +79,80 @@ class AboutScreen extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class Body extends StatelessWidget {
+  const Body({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final authService = AuthService();
+    final User? user = FirebaseAuth.instance.currentUser;
+
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+    double avatarRadius = width * .22;
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            CircleAvatar(
+              maxRadius: avatarRadius,
+              child: ShaderMask(
+                shaderCallback:
+                    (bounds) => LinearGradient(
+                      colors: [Colors.pinkAccent, Colors.purple.shade100],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(
+                      Rect.fromLTWH(0, 0, bounds.width, bounds.height),
+                    ),
+                child: Icon(
+                  Icons.flutter_dash,
+                  size: avatarRadius * 2 * .6,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            SizedBox(height: 15),
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                (user?.email != null || user?.displayName != null)
+                    ? "${user?.displayName ?? user?.email?.split('@').first}"
+                    : "No Name!",
+                textAlign: TextAlign.center,
+                style: KTextStyle.bodyTextStyle(context),
+              ),
+            ),
+            SizedBox(height: height * .3),
+            ElevatedButton(
+              onPressed: () async {
+                isLoading.value = true;
+
+                await Future.delayed(const Duration(seconds: 2));
+                await authService.signOut();
+
+                isLoading.value = false;
+
+                if (context.mounted) {
+                  context.go('/login');
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: KTextStyle.generalColor(context),
+                minimumSize: Size(width * .4, 50),
+              ),
+              child: Text("Log Out", style: KTextStyle.bodyTextStyle(context)),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
