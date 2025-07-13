@@ -1,5 +1,8 @@
+// ignore_for_file: unused_import
+
 import 'dart:math';
 
+import 'package:camera/camera.dart';
 import 'package:circular_menu/circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zth/data/constants.dart';
@@ -15,6 +18,33 @@ class CircularMenuWidget extends StatefulWidget {
 
 class _CircularMenuWidgetState extends State<CircularMenuWidget> {
   bool showMenu = true;
+
+  // ! Func to handler circular menu
+  void _openCamera(BuildContext context) async {
+    final cameras = await availableCameras();
+    final controller = CameraController(cameras[0], ResolutionPreset.max);
+
+    try {
+      await controller.initialize();
+
+      if (!context.mounted) return;
+
+      await showDialog(
+        context: context,
+        builder:
+            (_) => Dialog(
+              child: AspectRatio(
+                aspectRatio: controller.value.aspectRatio,
+                child: CameraPreview(controller),
+              ),
+            ),
+      );
+    } catch (e) {
+      debugPrint("Camera error: $e");
+    } finally {
+      await controller.dispose();
+    }
+  }
 
   void _showSearchAnchor(BuildContext context) async {
     setState(() => showMenu = false);
@@ -96,7 +126,9 @@ class _CircularMenuWidgetState extends State<CircularMenuWidget> {
     List<CircularMenuItem> items = [
       CircularMenuItem(
         icon: Icons.camera_alt_outlined,
-        onTap: () {},
+        onTap: () {
+          _openCamera(context);
+        },
         iconColor: KTextStyle.generalColor(context),
         color: KTextStyle.generalTextStyle(context),
       ),
