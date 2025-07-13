@@ -1,7 +1,9 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unused_import
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zth/auth/auth_service.dart';
+import 'package:flutter_zth/data/notifier.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
@@ -17,15 +19,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 4), () async {
-      final user = FirebaseAuth.instance.currentUser;
-
-      if (user != null) {
-        // context.go("/app");
-        context.go("/home");
-      }
-    });
     super.initState();
+    _checkLoginStatus();
+  }
+
+  Future<void> _checkLoginStatus() async {
+    await Future.delayed(const Duration(seconds: 4));
+
+    if (!mounted) return;
+
+    final user = await AuthService().getCurrentUser();
+    if (user != null) {
+      context.go("/home");
+    }
   }
 
   @override

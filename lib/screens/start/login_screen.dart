@@ -37,12 +37,14 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (!mounted) return;
-      setState(() => isLoading = true);
+      // set to index 0
+      selectedPageNotifier.value = 0;
 
-      // context.go('/app');
       context.go('/home');
     } catch (e) {
-      if (mounted) _showError(authService.getErrorMessage(e.toString()));
+      if (mounted) {
+        _showError(authService.getErrorMessage(e.toString()));
+      }
     } finally {
       if (mounted) setState(() => isLoading = false);
     }
@@ -58,12 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
       await authService.signInWithGoogle();
 
       if (!mounted) return;
-      setState(() => isLoading = false);
+      // set to index 0
+      selectedPageNotifier.value = 0;
 
-      // context.go('/app');
       context.go('/home');
     } catch (e) {
-      _showError("Google Sign In Failed");
+      _showError(authService.getErrorMessage(e.toString()));
     } finally {
       setState(() => isLoading = false);
     }
@@ -179,7 +181,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Divider(),
                       const SizedBox(height: 5),
                       ElevatedButton(
-                        onPressed: _loginWithGoogle,
+                        onPressed: () {
+                          _loginWithGoogle();
+                        },
+                        // onPressed: _loginWithGoogle,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: KTextStyle.generalColor(context),
                           minimumSize: Size(screenWidth * .6, 50),

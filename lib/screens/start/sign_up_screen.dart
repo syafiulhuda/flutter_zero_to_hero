@@ -30,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         passwordController.text,
       );
 
-      final user = authService.getCurrentUser();
+      final user = await authService.getCurrentUser();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Sign Up Success with email: ${user!.email}")),
       );

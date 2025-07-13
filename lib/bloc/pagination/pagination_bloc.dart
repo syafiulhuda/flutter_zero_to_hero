@@ -30,6 +30,8 @@ class PaginationBloc extends Bloc<PaginationEvent, PaginationState> {
         category: event.category,
       );
 
+      await Future.delayed(const Duration(seconds: 1));
+
       emit(
         PaginationLoaded(
           products: data.products ?? [],

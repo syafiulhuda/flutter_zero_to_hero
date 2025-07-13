@@ -1,19 +1,41 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_zth/auth/auth_service.dart';
 import 'package:flutter_zth/data/constants.dart';
 import 'package:flutter_zth/data/notifier.dart';
 import 'package:flutter_zth/routes/route.dart';
 import 'package:flutter_zth/widgets/circular_menu_widget.dart';
 import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  User? _currentUser;
+  final AuthService _authService = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentUser();
+  }
+
+  Future<void> _loadCurrentUser() async {
+    final user = await _authService.getCurrentUser();
+    if (mounted) {
+      setState(() {
+        _currentUser = user;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-    final User? user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
       appBar: AppBar(
@@ -22,12 +44,8 @@ class HomeScreen extends StatelessWidget {
         title: Material(
           color: Colors.transparent,
           child: Text(
-            // user?.email != null
-            //     ? "Hai ${user?.displayName}!"
-            //     : "Hai ${user?.email}!",
-            // "Hai ${user?.displayName ?? user?.email?.split('@').first ?? 'Pengguna'}!",
-            (user?.email != null || user?.displayName != null)
-                ? "Hai ${user?.displayName ?? user?.email?.split('@').first}!"
+            (_currentUser?.email != null || _currentUser?.displayName != null)
+                ? "Hai ${_currentUser?.displayName ?? _currentUser?.email?.split('@').first}!"
                 : "Hai Pengguna!",
             overflow: TextOverflow.ellipsis,
             style: TextStyle(

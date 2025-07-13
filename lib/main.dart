@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zth/app.dart';
 import 'package:flutter_zth/bloc/all_products/products_bloc.dart';
@@ -11,12 +12,11 @@ import 'package:flutter_zth/data/pagination_repository.dart';
 import 'package:flutter_zth/bloc/single_product/product_bloc.dart';
 import 'package:flutter_zth/data/constants.dart';
 import 'package:flutter_zth/data/notifier.dart';
-import 'package:flutter_zth/firebase_options.dart';
+import 'package:flutter_zth/firebase_options_dummy.dart';
+// import 'package:flutter_zth/firebase_options.dart';
 import 'package:flutter_zth/test/test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'routes/route.dart';
-
-// void main() => runApp(const CameraApp());
 
 // ! Handling CERTIFICATE_VERIFY_FAILED
 class CertificateVerify extends HttpOverrides {
@@ -31,9 +31,24 @@ class CertificateVerify extends HttpOverrides {
 // ! flutter build apk --release --split-per-abi
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   HttpOverrides.global = CertificateVerify();
+
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    isFirebaseInitialized.value = true;
+    if (kDebugMode) {
+      debugPrint('Firebase initialized successfully.');
+    }
+  } catch (e) {
+    isFirebaseInitialized.value = false;
+    if (kDebugMode) {
+      debugPrint(
+        'Firebase initialization failed: $e. Running without Firebase features.',
+      );
+    }
+  }
 
   final isDark = await ThemeModePreferences().loadThemePreference();
   isDarkModeNotifier.value = isDark;
