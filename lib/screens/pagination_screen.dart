@@ -156,6 +156,7 @@ class _PaginationScreenState extends State<PaginationScreen> {
                   return _buildSkeleton();
                 } else if (state is PaginationLoaded) {
                   final products = state.products;
+
                   if (products.isEmpty) {
                     return const Center(child: Text('No products found'));
                   }

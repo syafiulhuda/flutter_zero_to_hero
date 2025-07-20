@@ -33,3 +33,12 @@ class FetchProducts extends PaginationEvent {
 }
 
 class LoadMoreProducts extends PaginationEvent {}
+
+class AddProduct extends PaginationEvent {
+  final Product product;
+
+  const AddProduct({required this.product});
+
+  @override
+  List<Object> get props => [product];
+}

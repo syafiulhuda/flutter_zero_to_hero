@@ -8,12 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_zth/app.dart';
 import 'package:flutter_zth/bloc/all_products/products_bloc.dart';
 import 'package:flutter_zth/bloc/pagination/pagination_bloc.dart';
+import 'package:flutter_zth/bloc/user/user_bloc.dart';
 import 'package:flutter_zth/data/pagination_repository.dart';
 import 'package:flutter_zth/bloc/single_product/product_bloc.dart';
 import 'package:flutter_zth/data/constants.dart';
 import 'package:flutter_zth/data/notifier.dart';
-import 'package:flutter_zth/firebase_options_dummy.dart';
-// import 'package:flutter_zth/firebase_options.dart';
+// import 'package:flutter_zth/firebase_options_dummy.dart';
+import 'package:flutter_zth/firebase_options.dart';
 import 'package:flutter_zth/test/test.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'routes/route.dart';
@@ -29,6 +30,7 @@ class CertificateVerify extends HttpOverrides {
 }
 
 // ! flutter build apk --release --split-per-abi
+// ! app-arm64-v8a-release
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = CertificateVerify();
@@ -68,6 +70,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => ProductsBloc()),
         BlocProvider(create: (context) => ProductBloc()),
         BlocProvider(create: (context) => PaginationBloc(repo)),
+        BlocProvider(create: (context) => UserBloc()),
       ],
       child: App(),
     );
