@@ -4,8 +4,8 @@ import 'package:flutter_zth/bloc/user/user_bloc.dart';
 import 'package:flutter_zth/data/constants.dart';
 import 'package:flutter_zth/data/models/users.dart';
 
-class PostPutDeleteScreen extends StatelessWidget {
-  const PostPutDeleteScreen({super.key});
+class Crud extends StatelessWidget {
+  const Crud({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class PostPutDeleteScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('CRUD'),
+        title: const Text('CRUD Local'),
       ),
       body: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {

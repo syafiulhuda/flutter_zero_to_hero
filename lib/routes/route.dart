@@ -9,7 +9,7 @@ import 'package:flutter_zth/screens/hero_screen.dart';
 import 'package:flutter_zth/screens/mix_widget_screen.dart';
 import 'package:flutter_zth/screens/page_view_screen.dart';
 import 'package:flutter_zth/screens/pagination_screen.dart';
-import 'package:flutter_zth/screens/post_put_delete_screen.dart';
+import 'package:flutter_zth/screens/crud.dart';
 import 'package:flutter_zth/screens/refresh_indicator_screen.dart';
 import 'package:flutter_zth/screens/safe_area_screen.dart';
 import 'package:flutter_zth/screens/search_bar_screen.dart';
@@ -37,11 +37,11 @@ final List<RouteItem> appRoutes = [
   RouteItem(title: 'Slider', path: '/slider'),
   RouteItem(title: 'Snack Bar', path: '/snack-bar'),
   RouteItem(title: 'Hero Example', path: '/hero'),
-  RouteItem(title: 'Refresh Indicator', path: '/refresh'),
-  RouteItem(title: 'Seacrh Bar', path: '/seach-bar'),
   RouteItem(title: 'Page View', path: '/page-view'),
   RouteItem(title: 'Sliver App Bar', path: '/sliver-app-bar'),
   RouteItem(title: 'CRUD', path: '/crud'),
+  RouteItem(title: 'Refresh Indicator', path: '/refresh'),
+  RouteItem(title: 'Seacrh Bar', path: '/seach-bar'),
   RouteItem(title: 'Pagination and Sorting', path: '/pagination'),
 ];
 
@@ -78,7 +78,7 @@ GoRouter goRoute = GoRouter(
           case '/sliver-app-bar':
             return SliverAppBarScreen();
           case '/crud':
-            return PostPutDeleteScreen();
+            return Crud();
           case '/pagination':
             return PaginationScreen();
           default:

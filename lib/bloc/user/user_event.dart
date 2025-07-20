@@ -33,3 +33,8 @@ class UpdateUser extends UserEvent {
   @override
   List<Object> get props => [users];
 }
+
+class LoadUsers extends UserEvent {
+  @override
+  List<Object> get props => [];
+}

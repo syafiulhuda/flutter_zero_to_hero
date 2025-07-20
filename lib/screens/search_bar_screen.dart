@@ -194,10 +194,6 @@ class _SearchBarScreenState extends State<SearchBarScreen> {
                                 color: Colors.redAccent,
                                 child: Icon(Icons.cancel),
                               ),
-                              secondaryBackground: Container(
-                                color: Colors.redAccent,
-                                child: Icon(Icons.cancel),
-                              ),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
