@@ -16,6 +16,7 @@ import 'package:flutter_zth/screens/search_bar_screen.dart';
 import 'package:flutter_zth/screens/slider_screen.dart';
 import 'package:flutter_zth/screens/sliver_app_bar_screen.dart';
 import 'package:flutter_zth/screens/snack_bar_screen.dart';
+import 'package:flutter_zth/screens/todo_screen.dart';
 import 'package:flutter_zth/widgets/splash_screen.dart';
 import 'package:flutter_zth/screens/start/login_screen.dart';
 import 'package:flutter_zth/screens/start/sign_up_screen.dart';
@@ -39,6 +40,7 @@ final List<RouteItem> appRoutes = [
   RouteItem(title: 'Hero Example', path: '/hero'),
   RouteItem(title: 'Page View', path: '/page-view'),
   RouteItem(title: 'Sliver App Bar', path: '/sliver-app-bar'),
+  RouteItem(title: 'To Do', path: '/todo'),
   RouteItem(title: 'CRUD', path: '/crud'),
   RouteItem(title: 'Refresh Indicator', path: '/refresh'),
   RouteItem(title: 'Seacrh Bar', path: '/seach-bar'),
@@ -81,6 +83,8 @@ GoRouter goRoute = GoRouter(
             return Crud();
           case '/pagination':
             return PaginationScreen();
+          case '/todo':
+            return TodoScreen();
           default:
             return const Text('Halaman tidak dikenal');
         }
